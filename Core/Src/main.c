@@ -133,20 +133,20 @@ int main(void)
 		  }
 	  }
 	  SwitchState[1] = SwitchState[0];
-	 }
+
 	 if (ADCMode == 0)		// value from PA0 in term of mV
 	 {
-		 // data 12 bit = 4096		// Vin 3.3 V = 3300 mV
+		 // data 12 bit = 4096		// Vin 3.3 V = 3300 mV		//resolution >> Vref/2^bit
 		 ADCOutputConverted = ADCChannel[0].Data * 3300 / 4096;
 	 }
-	 if (ADCMode == 1)		// current temp : current temp = ((Vsense - V25) / Avg_Slope) + 25 ; V25 = 0.76 V , Avg_Slope = 2.5 mV/C
+	 if (ADCMode == 1)		// current temp = ((Vsense - V25) / Avg_Slope) + 25 ; V25 = 0.76 V , Avg_Slope = 2.5 mV/C
 	 {
-		 Vsense = ADCChannel[1].Data;
-		 ADCOutputConverted = ((Vsense - 0.76) / 2.5) + 25;
+		 //Vsense = (ADCChannel[1].Data * 3.3) / 4096;
+		 ADCOutputConverted = ((((ADCChannel[1].Data * 3.3) / 4096) - 0.76) / 0.0025) + 25;
 	 }
   }
   /* USER CODE END 3 */
-
+}
 
 /**
   * @brief System Clock Configuration
@@ -293,11 +293,11 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
