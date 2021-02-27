@@ -137,12 +137,12 @@ int main(void)
 	 if (ADCMode == 0)		// value from PA0 in term of mV
 	 {
 		 // data 12 bit = 4096		// Vin 3.3 V = 3300 mV		//resolution >> Vref/2^bit
-		 ADCOutputConverted = ADCChannel[0].Data * 3300 / 4096;
+		 ADCOutputConverted = ADCChannel[0].Data * 3300 / 4096.0;
 	 }
 	 if (ADCMode == 1)		// current temp = ((Vsense - V25) / Avg_Slope) + 25 ; V25 = 0.76 V , Avg_Slope = 2.5 mV/C
 	 {
 		 //Vsense = (ADCChannel[1].Data * 3.3) / 4096;
-		 ADCOutputConverted = ((((ADCChannel[1].Data * 3.3) / 4096) - 0.76) / 0.0025) + 25;
+		 ADCOutputConverted = ((((ADCChannel[1].Data * 3.3) / 4096.0) - 0.76) / 0.0025) + 25;
 	 }
   }
   /* USER CODE END 3 */
